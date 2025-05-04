@@ -1,20 +1,11 @@
 <flux:navbar class="-mb-px max-lg:hidden">
-    <flux:navbar.item icon="layout-grid" :href="route('dashboard')" :current="request()->routeIs('dashboard')" wire:navigate>
+    <flux:navbar.item icon="layout-grid" :href="route('personal-dashboard')" :current="request()->routeIs('personal-dashboard')" wire:navigate>
         Dashboard
     </flux:navbar.item>
-    <flux:navbar.item icon="circle-stack" :href="route('master-data.account-code')" :current="request()->routeIs('master-data*')" wire:navigate>
-        Master Data
+    <flux:navbar.item icon="identification" :href="route('personal-data')" :current="request()->routeIs('personal-data')" wire:navigate>
+       Data Pribadi
     </flux:navbar.item>
-    <flux:navbar.item icon="calendar-days" :href="route('activity')" :current="request()->routeIs('activity')" wire:navigate>
-        Kegiatan Kampung
-    </flux:navbar.item>
-    <flux:navbar.item icon="banknote-arrow-up" :href="route('dashboard')" :current="request()->routeIs('dashboard')" wire:navigate>
-        Penyusunan
-    </flux:navbar.item>
-    <flux:navbar.item icon="handshake" :href="route('dashboard')" :current="request()->routeIs('dashboard')" wire:navigate>
-        Realisasi
-    </flux:navbar.item>
-    <flux:navbar.item icon="square-library" :href="route('dashboard')" :current="request()->routeIs('dashboard')" wire:navigate>
-        Laporan
+    <flux:navbar.item icon="rss" :href="route('activity')" :current="request()->routeIs('activity')" wire:navigate>
+       Aspirasi Anda
     </flux:navbar.item>
 </flux:navbar>

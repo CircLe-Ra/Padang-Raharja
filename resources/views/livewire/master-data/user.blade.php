@@ -131,7 +131,7 @@ class extends Component {
     </flux:modal>
     <x-confirm wire:model.self="showConfirmModal" />
     {{-- table --}}
-    <x-table thead="#, Nama, Email, Aksi" searchable label="Data Pengguna"
+    <x-table thead="#, Nama, Email" searchable label="Data Pengguna"
              sub-label="Daftar pengguna yang telah didaftarkan">
         <x-slot name="filter">
             <x-filter wire:model.live="show" />

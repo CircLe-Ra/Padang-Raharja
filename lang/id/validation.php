@@ -279,6 +279,9 @@ return [
         'winner'                   => 'winner',
         'work'                     => 'work',
         'year'                     => 'tahun',
-        'code'                     => 'Kode'
+        'code'                     => 'Kode',
+        'category'                 => 'Kategori',
+        'contact'                  => 'Kontak',
+        'location'                 => 'Lokasi',
     ],
 ];

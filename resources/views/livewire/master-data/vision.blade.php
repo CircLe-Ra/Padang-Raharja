@@ -4,13 +4,13 @@ use App\Models\VillageProfile;
 use Livewire\Volt\Component;
 
 new
-#[\Livewire\Attributes\Title('Master Data - Visi, Misi & Tujuan')]
+#[\Livewire\Attributes\Title('Master Data - Visi')]
 class extends Component {
 
     public string $content = '';
 
     public function mount() {
-        $this->content = VillageProfile::where('id', 1)->first()->vision_mission_goal ?? '';
+        $this->content = VillageProfile::where('id', 1)->first()->vision ?? '';
     }
 
     #[\Livewire\Attributes\On('trix_value_updated')]
@@ -23,7 +23,7 @@ class extends Component {
     {
         try {
             VillageProfile::updateOrCreate(['id' => 1], [
-                'vision_mission_goal' => $this->content,
+                'vision' => $this->content,
             ]);
             $this->dispatch('toast', message: 'Berhasil diperbaharui');
         } catch (Exception $e) {
@@ -33,13 +33,13 @@ class extends Component {
 
 }; ?>
 
-<x-master-data.sidebar active="Visi, Misi & Tujuan">
+<x-master-data.sidebar active="Visi">
     <x-slot name="action">
         <flux:button variant="primary" class="w-[100px]" size="sm" icon="save-all" wire:click="save">Simpan</flux:button>
     </x-slot>
     <div class="p-6 border border-zinc-200 dark:border-zinc-700 mt-2 rounded-lg bg-zinc-50 dark:bg-zinc-900">
-        <flux:heading size="xl" level="1">Visi, Misi & Tujuan</flux:heading>
-        <flux:subheading class="mb-2">Visi, Misi & Tujuan Kampung Padang Raharja</flux:subheading>
+        <flux:heading size="xl" level="1">Visi</flux:heading>
+        <flux:subheading class="mb-2">Visi Kampung Padang Raharja</flux:subheading>
         <div class="mt-4">
             <livewire:editor :value="$this->content" />
         </div>

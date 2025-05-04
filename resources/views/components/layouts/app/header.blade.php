@@ -11,8 +11,13 @@
                 <x-app-logo />
             </a>
 
-            <x-menu />
+            @role('staff')
+                <x-menu-staff />
+            @endrole
 
+            @role('masyarakat')
+                <x-menu />
+            @endrole
             <flux:spacer />
 
             <flux:navbar class="me-1.5 space-x-0.5 rtl:space-x-reverse py-0!">
@@ -53,6 +58,10 @@
                         <flux:radio value="dark" icon="moon"></flux:radio>
                         <flux:radio value="system" icon="computer-desktop"></flux:radio>
                     </flux:radio.group>
+                    <flux:menu.separator />
+                    <flux:menu.radio.group>
+                        <flux:menu.item :href="route('home')" icon="home" wire:navigate>Beranda</flux:menu.item>
+                    </flux:menu.radio.group>
                     <flux:menu.separator />
                     <flux:menu.radio.group>
                         <flux:menu.item :href="route('settings.profile')" icon="cog" wire:navigate>{{ __('Settings') }}</flux:menu.item>

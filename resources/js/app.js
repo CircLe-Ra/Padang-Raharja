@@ -15,5 +15,29 @@ window.addEventListener('livewire:navigating', () => {
     Livewire.dispatch('action-toast-closed');
 }, { once: true });
 
+window.addEventListener('livewire:navigated', () => {
+    document.addEventListener('alpine:init', () => {
+        window.Alpine.directive('collapse', (el, {}, { effect, cleanup }) => {
+            let duration = 200
 
+            effect(() => {
+                let currentMaxHeight = el.style.maxHeight
+                el.style.transition = `max-height ${duration}ms ease-out`
+                el.style.overflow = 'hidden'
+
+                if (!el._x_isShown) {
+                    el.style.maxHeight = '0px'
+                } else if (el._x_isShown) {
+                    el.style.maxHeight = `${el.scrollHeight}px`
+                }
+            })
+
+            cleanup(() => {
+                el.style.maxHeight = null
+                el.style.transition = null
+                el.style.overflow = null
+            })
+        })
+    })
+}, { once: true });
 

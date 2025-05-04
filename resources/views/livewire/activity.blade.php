@@ -2,9 +2,15 @@
 
 use App\Models\Activity;
 use Livewire\Volt\Component;
+use Carbon\Carbon;
+use Livewire\WithFileUploads;
+use Livewire\WithPagination;
 
-new class extends Component {
-    use \Livewire\WithPagination;
+new
+#[\Livewire\Attributes\Title('Kegiatan Kampung')]
+class extends Component {
+    use WithPagination;
+    use WithFileUploads;
 
     #[\Livewire\Attributes\Url(history: true, keep: true)]
     public $show = 5;
@@ -16,6 +22,8 @@ new class extends Component {
     public string $date = '';
     public string $location = '';
     public string $description = '';
+    public $image;
+    public $currentImage;
 
     public bool $showConfirmModal = false;
 
@@ -23,10 +31,10 @@ new class extends Component {
     public function activities()
     {
         return Activity::where('name', 'like', '%' . $this->search . '%')
-                        ->orWhere('date', 'like', '%' . $this->search . '%')
-                        ->orWhere('location', 'like', '%' . $this->search . '%')
-                        ->orWhere('description', 'like', '%' . $this->search . '%')
-                        ->paginate(5, pageName: 'activity-page');
+            ->orWhere('date', 'like', '%' . $this->search . '%')
+            ->orWhere('location', 'like', '%' . $this->search . '%')
+            ->orWhere('description', 'like', '%' . $this->search . '%')
+            ->paginate(5, pageName: 'activity-page');
     }
 
     public function resetBagAndField(): void
@@ -37,21 +45,26 @@ new class extends Component {
 
     public function store(): void
     {
-        $this->validate([
+        $validated = $this->validate([
             'name' => ['required', 'string', 'max:100'],
             'date' => ['required', 'date'],
             'location' => ['required', 'string', 'max:100'],
             'description' => ['required', 'string'],
+            'image' => ['nullable', 'image', 'max:2048'],
         ]);
 
         try {
-            Activity::updateOrCreate(['id' => $this->id], [
-                'name' => $this->name,
-                'date' => $this->date,
-                'location' => $this->location,
-                'description' => $this->description,
-            ]);
+            if ($this->image) {
+                if ($this->currentImage) {
+                    Storage::delete($this->currentImage);
+                }
+                $image = $this->image->store('activity');
+                $this->currentImage = $image;
+                $validated['image'] = $image;
+            }
+            Activity::updateOrCreate(['id' => $this->id], $validated);
             unset($this->activities);
+            $this->dispatch('pond-reset');
             Flux::modal('activity-modal')->close();
             $this->dispatch('toast', message: 'Data berhasil disimpan');
         } catch (Exception $e) {
@@ -68,6 +81,7 @@ new class extends Component {
         $this->date = $activity->date;
         $this->location = $activity->location;
         $this->description = $activity->description;
+        $this->currentImage = $activity->image;
         Flux::modal('activity-modal')->show();
     }
 
@@ -91,6 +105,7 @@ new class extends Component {
         $this->showConfirmModal = false;
     }
 
+
 }; ?>
 
 <div>
@@ -112,7 +127,11 @@ new class extends Component {
                 <flux:input label="Nama Kegiatan" wire:model="name"/>
                 <flux:input label="Tanggal Kegiatan" wire:model="date" type="date"/>
                 <flux:input label="Lokasi Kegiatan" wire:model="location"/>
-                <flux:textarea label="Deskripsi Kegiatan" wire:model="description"/>
+                <flux:textarea label="Deskripsi Kegiatan" wire:model="description" rows="6"/>
+                <x-filepond label="Foto Kegiatan" wire:model="image"/>
+                @if($this->currentImage ?? false)
+                    <img class="object-cover rounded-xl w-full max-w-sm" src="{{ asset('storage/' . $this->currentImage) }}" alt="Foto Utama" />
+                @endif
                 <div class="flex">
                     <flux:spacer/>
                     <flux:button type="submit" variant="primary">Simpan</flux:button>
@@ -120,8 +139,9 @@ new class extends Component {
             </form>
         </div>
     </flux:modal>
-    <x-confirm wire:model.self="showConfirmModal" />
-    <x-table thead="#, Nama Kegiatan, Tanggal Mulai, Tanggal Selesai" searchable label="Data Kegiatan"
+    <x-confirm wire:model.self="showConfirmModal"/>
+    <x-table thead="#, Foto, Nama Kegiatan, Tanggal Kegiatan, Lokasi Kegiatan, Deskripsi" searchable
+             label="Data Kegiatan"
              sub-label="Daftar Kegiatan seluruh kegiatan">
         <x-slot name="filter">
             <x-filter wire:model.live="show"/>
@@ -133,19 +153,29 @@ new class extends Component {
                     <td class="px-6 py-4">
                         {{ $loop->iteration }}
                     </td>
-                    <td class="px-6 py-4">
+                    <th scope="row" class="text-center">
+                        <img class="w-10 h-10 rounded-full"
+                             src="{{ $activity->image ? asset('storage/' . $activity->image) : 'https://ui-avatars.com/api/?name=' . $activity->name }}"
+                             alt="Jese image"/>
+                    </th>
+                    <td class="px-6 py-4 ">
                         {{ $activity->name }}
                     </td>
-                    <td class="px-6 py-4">
-                        {{ $activity->date }}
+                    <td class="px-6 py-4 text-nowrap">
+                        {{ Carbon::parse($activity->date)->format('d F Y') }}
                     </td>
-                    <td class="px-6 py-4">
+                    <td class="px-6 py-4 text-nowrap">
                         {{ $activity->location }}
                     </td>
                     <td class="px-6 py-4">
+                        {{ $activity->description }}
+                    </td>
+                    <td class="px-6 py-4">
                         <div class="flex items-center gap-2">
-                            <flux:button variant="primary" size="xs" icon="pencil" wire:click="edit({{ $activity->id }})"/>
-                            <flux:button variant="danger" size="xs" icon="trash" wire:click="delete({{ $activity->id }})"/>
+                            <flux:button variant="primary" size="xs" icon="pencil"
+                                         wire:click="edit({{ $activity->id }})"/>
+                            <flux:button variant="danger" size="xs" icon="trash"
+                                         wire:click="delete({{ $activity->id }})"/>
                         </div>
                     </td>
                 </tr>
@@ -155,7 +185,7 @@ new class extends Component {
                 <td colspan="5" class="px-6 py-4 text-center">
                     Data tidak ditemukan
                 </td>
-            </tr>
+            </tr>string
         @endif
     </x-table>
     {{ $this->activities->links('components.pagination') }}

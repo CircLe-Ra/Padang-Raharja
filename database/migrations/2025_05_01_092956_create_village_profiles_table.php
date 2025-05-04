@@ -14,7 +14,8 @@ return new class extends Migration
         Schema::create('village_profiles', function (Blueprint $table) {
             $table->id();
             $table->longText('history')->nullable();
-            $table->longText('vision_mission_goal')->nullable();
+            $table->longText('vision')->nullable();
+            $table->longText('mission')->nullable();
             $table->longText('geography_demographics')->nullable();
             $table->text('structure')->nullable();
             $table->timestamps();

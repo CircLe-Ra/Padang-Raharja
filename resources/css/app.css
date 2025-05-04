@@ -12,6 +12,8 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 @theme {
+
+
     --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
 
     --color-zinc-50: #fafafa;
@@ -30,6 +32,14 @@
     --color-accent-content: var(--color-neutral-800);
     --color-accent-foreground: var(--color-white);
     --font-sans: 'GT Walsheim Pro', sans-serif;
+
+    --animate-border-spin: border-spin 10s linear infinite;
+    @keyframes border-spin {
+        100% {
+            transform: rotate(-360deg)
+        }
+    }
+
 }
 
 @layer theme {
@@ -194,5 +204,36 @@ html.dark {
         border-left-width: 0.3em;
         margin-left: 0.3em;
         padding-left: 0.6em;
+    }
+
+    /* Act as a border */
+    .card-wrapper {
+        @apply relative overflow-hidden rounded-2xl bg-gradient-to-b from-zinc-200 to-zinc-200 dark:from-zinc-800 dark:to-zinc-700;
+    }
+
+    /* Gradient */
+    .card-wrapper::before {
+        background: conic-gradient(
+            rgba(0, 0, 0, 0.4) 0deg,
+            rgba(0, 0, 0, 0.4) 0deg,
+            transparent 80deg
+        );
+
+        @apply absolute h-[200%] w-[200%] left-[-50%] top-[-50%] animate-border-spin content-[''];
+    }
+
+    .dark .card-wrapper::before {
+        background: conic-gradient(
+            rgba(255, 255, 255, 0.4) 0deg,
+            rgba(255, 255, 255, 0.4) 0deg,
+            transparent 80deg
+        );
+
+        @apply absolute h-[200%] w-[200%] left-[-50%] top-[-50%] animate-border-spin content-[''];
+    }
+
+    /* Body */
+    .card-content {
+        @apply absolute left-[1px] top-[1px] h-[calc(100%-2px)] w-[calc(100%-2px)] rounded-2xl bg-gradient-to-b from-zinc-50 to-zinc-50 dark:from-zinc-900 dark:to-zinc-900;
     }
 }
