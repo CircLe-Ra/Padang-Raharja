@@ -106,7 +106,9 @@
     </flux:navlist>
 </flux:sidebar>
 
+<div class="px-8 py-2 mx-auto max-w-screen-xl">
     {{ $slot }}
+</div>
 
 <flux:footer class="bg-white dark:bg-zinc-900">
     <div class="mx-auto w-full max-w-screen-xl p-8 py-2 ">

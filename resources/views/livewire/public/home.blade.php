@@ -22,14 +22,14 @@ class extends Component {
 
 <div class="">
     <section class="bg-white dark:bg-zinc-800 w-full">
-        <div class="flex justify-between items-center px-8 mt-3 -mb-4 max-w-screen-xl mx-auto">
+        <div class="flex justify-between items-center mt-3 -mb-4 max-w-screen-xl mx-auto">
             <flux:text class=" font-bold text-2xl dark:text-white text-zinc-900 ">
                 Kegiatan Kampung
             </flux:text>
             <flux:button icon:trailing="arrow-long-right" variant="ghost" href="{{ route('portal.activity') }}" wire:navigate>Kegiatan Lain </flux:button>
         </div>
         <div
-            class="grid py-10 px-8 mx-auto max-w-screen-xl grid-cols-1 {{ $this->manyEvent->count() >= 1 ? 'lg:grid-cols-2' : 'lg:grid-cols-1' }} gap-6">
+            class="grid py-10 mx-auto max-w-screen-xl grid-cols-1 {{ $this->manyEvent->count() >= 1 ? 'lg:grid-cols-2' : 'lg:grid-cols-1' }} gap-6">
             <div class="">
                 <div class=" overflow-hidden max-w-full h-96 rounded-xl">
                     @if ($this->oneEvent->image ?? false)

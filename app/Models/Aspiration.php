@@ -42,6 +42,13 @@ class Aspiration extends Model
         return $query->where('is_public', true);
     }
 
+    public function scopePublicExcludeMe($query)
+    {
+        return $query->where('is_public', true)
+            ->where('user_id', '!=', auth()->id())
+            ->orWhereNull('user_id');
+    }
+
     public function scopeWithStatus($query, string $status)
     {
         return $query->where('status', $status);

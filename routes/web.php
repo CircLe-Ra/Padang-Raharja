@@ -10,7 +10,7 @@ Route::get('/', function () {
     }else if(auth()->user()->roles->first()->name == 'staff') {
         return redirect()->route('dashboard');
     }
-});
+})->name('toView');
 
 Volt::route('/home', 'public.home')->name('home');
 Volt::route('portal/activity-read/{id}', 'public.activity-read')->name('activity-read');
@@ -51,6 +51,7 @@ Route::middleware(['auth'])->group(function () {
 
     Volt::route('personal-dashboard', 'personal-dashboard')->name('personal-dashboard');
     Volt::route('personal-data', 'personal-data')->name('personal-data');
+    Volt::route('personal-aspiration', 'personal-aspiration')->name('personal-aspiration');
 });
 
 require __DIR__.'/auth.php';

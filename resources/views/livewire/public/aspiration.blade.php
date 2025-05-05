@@ -163,6 +163,9 @@ class extends Component {
             $this->resetBagAndField();
             Flux::modal('aspiration-modal')->close();
             $this->dispatch('toast', message: 'Aspirasi berhasil diajukan');
+            if (!$this->isAnonymous) {
+                $this->redirect(route('toView'), navigate: true);
+            }
         } catch (Exception $e) {
             Flux::modal('aspiration-modal')->close();
             $this->dispatch('toast', type: 'error', message: 'Aspirasi gagal diajukan ' . $e->getMessage());
@@ -175,10 +178,7 @@ class extends Component {
 
 }; ?>
 
-<div class="px-8 py-2 mx-auto max-w-screen-xl">
-    <flux:text class=" mt-2 mb-6 mx-auto max-w-screen-xl  font-bold text-2xl dark:text-white text-zinc-900">
-        FAQ
-    </flux:text>
+<div class="mt-2">
     <div class="grid grid-cols-1 gap-4 lg:grid-cols-6">
         <div class="lg:col-span-4">
             <x-accordion

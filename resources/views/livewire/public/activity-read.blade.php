@@ -15,7 +15,7 @@ class extends Component {
     }
 }; ?>
 
-<section class=" bg-white dark:bg-zinc-800 w-full px-4">
+<section class=" bg-white dark:bg-zinc-800 w-full">
     <div class="flex gap-8 max-w-screen-xl mx-auto lg:flex-row flex-col">
         <div class="w-full  max-w-3xl mx-auto">
             @if($this->activity->image)
