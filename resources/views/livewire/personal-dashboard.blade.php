@@ -49,7 +49,7 @@ class extends Component {
         </div>
     @endif
 
-    <div class="flex flex-1 flex-col gap-2 ">
+    <div class="flex flex-col gap-2 ">
         <div class="flex justify-between items-center my-2">
             <flux:heading size="xl">Aspirasi Terakhir Yang Anda Ajukan</flux:heading>
         </div>
@@ -70,19 +70,9 @@ class extends Component {
                                 <div class="flex-1">{{ $this->selfAspiration->user->personalData->phone_number }}</div>
                             </div>
                             <div class="flex items-start">
-                                <div class="w-40 pr-2">Kategori Aspirasi</div>
+                                <div class="w-40 pr-2">Tiket</div>
                                 <div class="px-1">:</div>
-                                <div class="flex-1">{{ $this->selfAspiration->category }}</div>
-                            </div>
-                            <div class="flex items-start">
-                                <div class="w-40 pr-2">Lokasi</div>
-                                <div class="px-1">:</div>
-                                <div class="flex-1">{{ $this->selfAspiration->location }}</div>
-                            </div>
-                            <div class="flex items-start">
-                                <div class="w-40 pr-2">Aspirasi</div>
-                                <div class="px-1">:</div>
-                                <div class="flex-1">{{ $this->selfAspiration->description }}</div>
+                                <div class="flex-1">{{ $this->selfAspiration->ticket }}</div>
                             </div>
                             <div class="flex items-start">
                                 <div class="w-40 pr-2">Terpublikasi?</div>
@@ -98,7 +88,7 @@ class extends Component {
                                         )}}</div>
                             </div>
                             <div class="flex items-start mt-6">
-                                <flux:button variant="primary" size="sm" href="#">Lihat Selengkapnya</flux:button>
+                                <flux:button variant="primary" size="sm" href="{{ route('portal.aspiration-detail', $this->selfAspiration->ticket) }}">Lihat Selengkapnya</flux:button>
                             </div>
                         </div>
 
@@ -111,20 +101,21 @@ class extends Component {
                                 </div>
                             @endforeach
                                 <div class="border border-zinc-200 dark:border-zinc-700 rounded-xl content-center text-center">
-                                    <a href="#" class="hover:underline">Lihat lainnya</a>
+                                    <a href="{{ route('portal.aspiration-detail', $this->selfAspiration->ticket) }}" class="hover:underline">Lihat lainnya</a>
                                 </div>
                         @else
-                            <div class="size-48">
-                                <img src="{{ asset('storage/' . $aspirationImage->image) }}" alt="image {{ $loop->iteration }}">
-                            </div>
+                            @foreach($this->selfAspiration->images as $aspirationImage)
+                                <div class="size-48 content-center">
+                                    <img wire:click="showImage('{{ $aspirationImage->image }}')" src="{{ asset('storage/' . $aspirationImage->image) }}" alt="image {{ $loop->iteration }}">
+                                </div>
+                            @endforeach
                         @endif
                     </div>
                 </div>
             @else
-                <div class="relative aspect-video content-center">
-                    <x-placeholder-pattern class="absolute size-full stroke-zinc-900/20 dark:stroke-zinc-100/20"/>
+                <div class="relative h-48 content-center">
                     <flux:text
-                        class="h-96 absolute top-35 left-1/2 -translate-x-1/2 -translate-y-1/2 text-zinc-900 dark:text-zinc-100 text-center">
+                        class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-zinc-900 dark:text-zinc-100 text-center">
                         Belum ada aspirasi anda.
                     </flux:text>
                 </div>
@@ -136,7 +127,7 @@ class extends Component {
             <flux:heading size="xl">Daftar Seluruh Aspirasi</flux:heading>
         </div>
         <div class="bg-zinc-50 overflow-hidden rounded-xl border border-zinc-200 dark:border-zinc-700 dark:bg-zinc-900">
-            @if($this->allAspirationPublic)
+            @if($this->allAspirationPublic->count() > 0)
                 @foreach($this->allAspirationPublic as $allAspiration)
                     <div class="p-6 flex justify-between gap-4">
                         <div class="">
@@ -154,7 +145,7 @@ class extends Component {
                                         <td class="px-1 py-1">:</td>
                                         <td class="w-40 py-1">{{ $allAspiration->category }}</td>
                                         <td class="py-4" >
-                                            <flux:button variant="primary" size="sm" href="#">Lihat Selengkapnya</flux:button>
+                                            <flux:button variant="primary" size="sm" href="{{ route('portal.aspiration-detail', $allAspiration->ticket) }}">Lihat Selengkapnya</flux:button>
                                         </td>
                                 </table>
                             </div>
@@ -162,10 +153,9 @@ class extends Component {
                     </div>
                 @endforeach
             @else
-                <div class="relative aspect-video content-center">
-                    <x-placeholder-pattern class="absolute size-full stroke-zinc-900/20 dark:stroke-zinc-100/20"/>
+                <div class="relative h-48 content-center">
                     <flux:text
-                        class="h-96 absolute top-35 left-1/2 -translate-x-1/2 -translate-y-1/2 text-zinc-900 dark:text-zinc-100 text-center">
+                        class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-zinc-900 dark:text-zinc-100 text-center">
                         Belum ada aspirasi anda.
                     </flux:text>
                 </div>

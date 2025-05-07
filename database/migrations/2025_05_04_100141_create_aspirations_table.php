@@ -14,15 +14,16 @@ return new class extends Migration
         Schema::create('aspirations', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->nullable()->constrained()->nullOnDelete();
-            $table->string('name')->nullable();
-            $table->string('contact')->nullable();
-            $table->string('category');
-            $table->string('title');
+            $table->string('ticket')->nullable();
+            $table->string('name', 100)->nullable();
+            $table->string('contact', 50)->nullable();
+            $table->string('category', 50);
+            $table->string('title', 200);
             $table->string('location')->nullable();
             $table->text('description');
             $table->boolean('is_anonymous')->default(false);
             $table->boolean('is_public')->default(false);
-            $table->string('status')->default('pending');
+            $table->string('status', 50)->default('pending');
             $table->softDeletes();
             $table->timestamps();
         });

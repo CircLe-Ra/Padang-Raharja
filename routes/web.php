@@ -5,11 +5,16 @@ use Livewire\Volt\Volt;
 
 
 Route::get('/', function () {
-    if(auth()->user()->roles->first()->name == 'masyarakat') {
-        return redirect()->route('personal-dashboard');
-    }else if(auth()->user()->roles->first()->name == 'staff') {
-        return redirect()->route('dashboard');
+    if(auth()->user()){
+        if(auth()->user()->roles->first()->name == 'masyarakat') {
+            return redirect()->route('personal-dashboard');
+        }else if(auth()->user()->roles->first()->name == 'staff') {
+            return redirect()->route('dashboard');
+        }
+    }else{
+        return redirect()->route('home');
     }
+
 })->name('toView');
 
 Volt::route('/home', 'public.home')->name('home');
@@ -22,6 +27,8 @@ Volt::route('portal/aspiration', 'public.aspiration')->name('portal.aspiration')
 Route::view('dashboard', 'dashboard')
     ->middleware(['auth', 'verified'])
     ->name('dashboard');
+
+Volt::route('aspiration-detail/ticket/{ticket}', 'personal-aspiration-detail')->name('portal.aspiration-detail');
 
 Route::middleware(['auth'])->group(function () {
     Route::redirect('settings', 'settings/profile');
@@ -53,5 +60,6 @@ Route::middleware(['auth'])->group(function () {
     Volt::route('personal-data', 'personal-data')->name('personal-data');
     Volt::route('personal-aspiration', 'personal-aspiration')->name('personal-aspiration');
 });
+
 
 require __DIR__.'/auth.php';

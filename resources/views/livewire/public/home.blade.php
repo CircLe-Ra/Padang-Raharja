@@ -22,7 +22,7 @@ class extends Component {
 
 <div class="">
     <section class="bg-white dark:bg-zinc-800 w-full">
-        <div class="flex justify-between items-center mt-3 -mb-4 max-w-screen-xl mx-auto">
+        <div class="flex justify-between items-center mt-3 -mb-5 max-w-screen-xl mx-auto">
             <flux:text class=" font-bold text-2xl dark:text-white text-zinc-900 ">
                 Kegiatan Kampung
             </flux:text>

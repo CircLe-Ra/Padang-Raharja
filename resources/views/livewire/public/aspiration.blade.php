@@ -113,9 +113,11 @@ class extends Component {
             'other' => 'Lainnya',
         ]);
 
-        $this->isAnonymous =  auth()->guest();
+        $this->isAnonymous = auth()->guest();
 
-        $this->personalDataStatus = \App\Models\PersonalData::where('user_id', auth()->user()->id)->count() ?? false;
+        if(auth()->user()){
+            $this->personalDataStatus = \App\Models\PersonalData::where('user_id', auth()->user()->id)->count() ?? false;
+        }
     }
 
     public function resetBagAndField(): void
@@ -139,10 +141,16 @@ class extends Component {
                 'images' => ['required', 'array', 'max:5'],
                 'images.*' => ['required', 'image', 'max:2048'],
             ]);
+
         try{
             $user_id = $this->isAnonymous ? null : auth()->user()->id;
+            $ticketNumber = Str::random(6) . '-' . Str::random(6) . '-' . Str::random(6);
+            while (Aspiration::where('ticket', $ticketNumber)->exists()) {
+                $ticketNumber = Str::random(6) . '-' . Str::random(6) . '-' . Str::random(6);
+            }
             $aspiration = Aspiration::create([
                 'user_id' => $user_id,
+                'ticket' => $ticketNumber,
                 'name' => $validated['name'],
                 'contact' => $validated['contact'],
                 'title' => $validated['title'],
@@ -171,8 +179,6 @@ class extends Component {
             $this->dispatch('toast', type: 'error', message: 'Aspirasi gagal diajukan ' . $e->getMessage());
 //            dd($e->getMessage());
         }
-
-
     }
 
 
@@ -202,7 +208,8 @@ class extends Component {
             </div>
             <flux:separator class="my-6" text="Atau"/>
             <flux:modal.trigger name="aspiration-modal">
-                <flux:button class=" w-full" variant="primary" wire:click="showFormModal = true">Ajukan Aspirasi Baru
+                <flux:button class=" w-full" variant="primary" wire:click="showFormModal = true">
+                    Ajukan Aspirasi Baru
                 </flux:button>
             </flux:modal.trigger>
             @guest

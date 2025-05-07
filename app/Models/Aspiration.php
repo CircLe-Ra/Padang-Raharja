@@ -11,17 +11,7 @@ class Aspiration extends Model
 {
     use SoftDeletes;
 
-    protected $fillable = [
-        'title',
-        'description',
-        'category',
-        'location',
-        'status',
-        'user_id',
-        'name',
-        'contact',
-        'is_public',
-    ];
+    protected $guarded = ['id'];
 
     protected $casts = [
         'is_public' => 'boolean',
