@@ -8,7 +8,7 @@
     <flux:navbar.item icon="calendar-days" :href="route('activity')" :current="request()->routeIs('activity')" wire:navigate>
         Kegiatan Kampung
     </flux:navbar.item>
-    <flux:navbar.item icon="banknote-arrow-up" :href="route('budget.plan.fiscal-years')" :current="request()->routeIs('budget.plan*')" wire:navigate>
+    <flux:navbar.item icon="banknote-arrow-up" :href="route('budget.fiscal-years')" :current="request()->routeIs('budget*')" wire:navigate>
         Penyusunan
     </flux:navbar.item>
     <flux:navbar.item icon="handshake" :href="route('budget.realization.fiscal-years')" :current="request()->routeIs('budget.realization*')" wire:navigate>

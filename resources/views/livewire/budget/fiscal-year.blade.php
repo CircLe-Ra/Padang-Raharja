@@ -157,7 +157,7 @@ class extends Component {
                                 <div class="flex items-center gap-2">
                                     <flux:tooltip position="left" content="Unggah Data Anggaran">
                                         <flux:button
-                                            href="{{ route('budget.plan.budget-plan', $fy->id) }}"
+                                            href="{{ route('budget.budget-plan', $fy->id) }}"
                                             variant="primary"
                                             size="xs"
                                             icon="pencil"

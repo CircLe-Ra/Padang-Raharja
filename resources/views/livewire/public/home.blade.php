@@ -129,7 +129,7 @@ class extends Component {
             Struktur Organisasi
         </flux:text>
         <div class="grid px-8 mx-auto max-w-screen-xl pb-8">
-            @if($this->profile->structure)
+            @if($this->profile->structure ?? false)
                 <img class="object-cover rounded-xl w-full" src="{{  $this->profile->structure ? asset('storage/' . $this->profile->structure) : '' }}" alt="News Image"/>
                 <p class="text-center my-2">Sumber : Balai Kampung Padang Raharja</p>
             @else
