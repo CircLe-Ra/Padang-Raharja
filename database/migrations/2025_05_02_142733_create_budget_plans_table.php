@@ -19,6 +19,8 @@ return new class extends Migration
             $table->string('volume', 50)->nullable();
             $table->string('unit', 50)->nullable();
             $table->decimal('budget', 20, 2)->nullable();
+            $table->enum('category', ['village', 'people'])->default('village')->nullable();
+            $table->enum('realization', ['not_yet', 'already'])->default('not_yet')->nullable();
             $table->timestamps();
         });
     }

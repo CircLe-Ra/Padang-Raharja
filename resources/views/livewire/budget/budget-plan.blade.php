@@ -27,6 +27,7 @@ class extends Component {
     public string $volume = '';
     public string $unit = '';
     public string $budget = '';
+    public string $category = 'village';
 
     // Untuk combobox
     public string $accountCodeSearch = '';
@@ -95,19 +96,20 @@ class extends Component {
 
     public function store(): void
     {
+        try {
         $this->validate([
+            'category' => ['required'],
             'account_code_id' => ['required', 'exists:account_codes,id'],
             'funding_source_id' => ['nullable', 'exists:funding_sources,id'],
             'volume' => ['nullable', 'string', 'max:50'],
             'unit' => ['nullable', 'string', 'max:50'],
             'budget' => ['nullable', 'numeric'],
         ]);
-
-        try {
             BudgetPlan::updateOrCreate(['id' => $this->id], [
                 'fiscal_year_id' => $this->fiscalYearId,
                 'account_code_id' => $this->account_code_id,
                 'funding_source_id' => $this->funding_source_id,
+                'category' => $this->category,
                 'volume' => $this->volume,
                 'unit' => $this->unit,
                 'budget' => $this->budget,
@@ -124,9 +126,13 @@ class extends Component {
     public function edit($id): void
     {
         $budgetPlan = BudgetPlan::find($id);
+        $accountCode = AccountCode::find($budgetPlan->account_code_id);
+        $fundingSource = FundingSource::find($budgetPlan->funding_source_id);
         $this->id = $budgetPlan->id;
         $this->account_code_id = $budgetPlan->account_code_id;
-        $this->funding_source_id = $budgetPlan->funding_source_id;
+        $this->funding_source_id = $budgetPlan->funding_source_id ?? null;
+        $this->accountCodeSearch = $accountCode->code . ' - ' . $accountCode->name;
+        $this->fundingSourceSearch = $fundingSource->name ?? '';
         $this->volume = $budgetPlan->volume;
         $this->unit = $budgetPlan->unit;
         $this->budget = $budgetPlan->budget;
@@ -188,14 +194,18 @@ class extends Component {
                 <flux:text class="mt-2">Tambah atau Ubah Penyusunan Anggaran disini.</flux:text>
             </div>
             <form wire:submit="store" class="space-y-4">
+                <flux:select label="Perencanaan" wire:model="category">
+                    <flux:select.option value="village">Kampung</flux:select.option>
+                    <flux:select.option value="people">Aspirasi Masyarakat</flux:select.option>
+                </flux:select>
                 <flux:field>
-                    <flux:label>Kode Akun</flux:label>
+                    <flux:label>Kode Rekening</flux:label>
                     <div>
                         <flux:input
                             x-on:focus="$wire.showAccountCode = true"
                             @click.outside="$wire.showAccountCode = false"
                             wire:model.live="accountCodeSearch"
-                            placeholder="Cari kode akun..."
+                            placeholder="Cari kode rekening..."
                             icon:trailing="chevron-down"
                             x-bind:class="{ 'ring-2 ring-primary-500': open }"
                             autocomplete="off" />
@@ -242,7 +252,29 @@ class extends Component {
 
                 <flux:input label="Volume" wire:model="volume"/>
                 <flux:input label="Satuan" wire:model="unit"/>
-                <flux:input label="Anggaran (Rp)" wire:model="budget" type="number"/>
+                <flux:field>
+                <div x-data="{ formattedBudget: '' }"
+                     x-init="() => {
+                        $watch('$wire.budget', (value) => {
+                             if (value) {
+                                 formattedBudget = new Intl.NumberFormat('id-ID', { style: 'currency',currency: 'IDR' }).format(value);
+                             } else {
+                                 formattedBudget = '';
+                             }
+                         });
+                     }">
+                    <flux:label>Total Anggaran&nbsp;<div class="bg-zinc-600 text-white py-1 px-2 rounded -mb-1" x-show="$wire.budget" x-text="formattedBudget"></div></flux:label>
+                    <flux:input
+                        class="mt-2"
+                        wire:model="budget"
+                        x-model="$wire.budget"
+                        x-on:input="
+                        let num = $event.target.value.replace(/[^0-9]/g, '');
+                        $wire.budget = num ? parseInt(num) : null;
+                    " />
+                </div>
+                </flux:field>
+
 
                 <div class="flex">
                     <flux:spacer/>
@@ -253,7 +285,7 @@ class extends Component {
     </flux:modal>
 
     <x-confirm wire:model.self="showConfirmModal"/>
-    <x-table thead="#, Kode Akun, Sumber Dana, Volume, Satuan, Anggaran" searchable
+    <x-table thead="#, Kode Rekening, Sumber Dana, Volume, Satuan, Anggaran, Perencanaan" searchable
              label="Penyusunan Anggaran" sub-label="Daftar penyusunan anggaran">
         <x-slot name="filter">
             <x-filter wire:model.live="show"/>
@@ -279,6 +311,9 @@ class extends Component {
                     </td>
                     <td class="px-6 py-4">
                         {{ $plan->budget ? 'Rp ' . number_format($plan->budget, 2, ',', '.') : '-' }}
+                    </td>
+                    <td class="px-6 py-4">
+                        {{ $plan->category == 'village' ? 'Kampung' : 'Aspirasi Masyarakat' }}
                     </td>
                     <td class="px-6 py-4">
                         <div class="flex items-center gap-2">

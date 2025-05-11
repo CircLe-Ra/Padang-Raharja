@@ -283,5 +283,6 @@ return [
         'category'                 => 'Kategori',
         'contact'                  => 'Kontak',
         'location'                 => 'Lokasi',
+        'account_code_id'          => 'Kode Rekening',
     ],
 ];
