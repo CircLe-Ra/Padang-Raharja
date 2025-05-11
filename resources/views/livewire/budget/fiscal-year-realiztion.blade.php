@@ -35,7 +35,7 @@ class extends Component {
 
 <div>
     <x-activity.breadcrumb active="Realisasi / Tahun Anggaran" />
-    <x-table thead="#, Tahun, Tahun Aktif" searchable label="Daftar Tahun Anggaran"
+    <x-table thead="#, Tahun, Tahun Aktif, Total Perencanaan, Total Realisasi" searchable label="Daftar Tahun Anggaran"
              sub-label="Tahun-tahun anggaran yang telah didaftarkan">
         <x-slot name="filter">
             <x-filter wire:model.live="show" />
@@ -52,6 +52,9 @@ class extends Component {
                     </td>
                     <td class="px-6 py-4">
                         {{ $this->statuses[$fy->id] ? 'Aktif' : 'Non-Aktif' }}
+                    </td>
+                    <td class="px-6 py-4">
+                        {{ $fy->budgetPlans->count() ?? 0 }} Perencanaan
                     </td>
                     <td class="px-6 py-4">
                         <div class="flex items-center gap-2">

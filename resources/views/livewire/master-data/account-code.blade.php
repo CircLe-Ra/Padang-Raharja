@@ -36,7 +36,7 @@ class extends Component {
     public function store(): void
     {
         $this->validate([
-            'code' => ['required', 'string', 'max:50', Rule::unique(AccountCode::class)->ignore($this->id ?? null)],
+            'code' => ['required', 'string', 'max:50'], //, Rule::unique(AccountCode::class)->ignore($this->id ?? null)
             'name' => ['required', 'string', 'max:150'],
         ]);
 
