@@ -185,7 +185,7 @@ class extends Component {
                 <td colspan="5" class="px-6 py-4 text-center">
                     Data tidak ditemukan
                 </td>
-            </tr>string
+            </tr>
         @endif
     </x-table>
     {{ $this->activities->links('components.pagination') }}

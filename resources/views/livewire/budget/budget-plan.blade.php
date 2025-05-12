@@ -178,13 +178,13 @@ class extends Component {
 }; ?>
 
 <div>
-    <x-activity.breadcrumb active="Penyusunan / Anggaran Tahun {{ $this->year }}">
+    <x-budget.breadcrumb :back="route('budget.plan.fiscal-years')" active="Penyusunan / Anggaran Tahun {{ $this->year }}">
         <x-slot name="action">
             <flux:modal.trigger name="budget-plan-modal">
                 <flux:button variant="primary" class="w-[100px]" size="sm" icon="plus">Tambah</flux:button>
             </flux:modal.trigger>
         </x-slot>
-    </x-activity.breadcrumb>
+    </x-budget.breadcrumb>
 
     {{-- modal --}}
     <flux:modal name="budget-plan-modal" variant="flyout" @close="resetBagAndField">
@@ -285,7 +285,7 @@ class extends Component {
     </flux:modal>
 
     <x-confirm wire:model.self="showConfirmModal"/>
-    <x-table thead="#, Kode Rekening, Sumber Dana, Volume, Satuan, Anggaran, Perencanaan" searchable
+    <x-table thead="#, Kode Rekening, Volume, Satuan, Anggaran, Sumber Dana, Perencanaan" searchable
              label="Penyusunan Anggaran" sub-label="Daftar penyusunan anggaran">
         <x-slot name="filter">
             <x-filter wire:model.live="show"/>
@@ -301,9 +301,6 @@ class extends Component {
                         {{ $plan->accountCode->code }} - {{ $plan->accountCode->name }}
                     </td>
                     <td class="px-6 py-4">
-                        {{ $plan->fundingSource->name ?? '-' }}
-                    </td>
-                    <td class="px-6 py-4">
                         {{ $plan->volume ?? '-' }}
                     </td>
                     <td class="px-6 py-4">
@@ -311,6 +308,9 @@ class extends Component {
                     </td>
                     <td class="px-6 py-4">
                         {{ $plan->budget ? 'Rp ' . number_format($plan->budget, 2, ',', '.') : '-' }}
+                    </td>
+                    <td class="px-6 py-4">
+                        {{ $plan->fundingSource->name ?? '-' }}
                     </td>
                     <td class="px-6 py-4">
                         {{ $plan->category == 'village' ? 'Kampung' : 'Aspirasi Masyarakat' }}

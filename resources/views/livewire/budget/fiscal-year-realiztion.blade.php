@@ -34,7 +34,7 @@ class extends Component {
 }; ?>
 
 <div>
-    <x-activity.breadcrumb active="Realisasi / Tahun Anggaran" />
+    <x-budget.breadcrumb active="Realisasi" />
     <x-table thead="#, Tahun, Tahun Aktif, Total Perencanaan, Total Realisasi" searchable label="Daftar Tahun Anggaran"
              sub-label="Tahun-tahun anggaran yang telah didaftarkan">
         <x-slot name="filter">
@@ -57,13 +57,16 @@ class extends Component {
                         {{ $fy->budgetPlans->count() ?? 0 }} Perencanaan
                     </td>
                     <td class="px-6 py-4">
+                        {{ $fy->budgetPlans->where('realization', 'already')->count() ?? 0 }} Terealisasi
+                    </td>
+                    <td class="px-6 py-4">
                         <div class="flex items-center gap-2">
-                            <flux:tooltip position="right" content="Unggah Data Realisasi">
+                            <flux:tooltip position="right" content="Lihat">
                                 <flux:button
                                     href="{{ route('budget.realization.data', $fy->id) }}"
                                     variant="primary"
                                     size="xs"
-                                    icon="pencil"
+                                    icon="eye"
                                     wire:navigate />
                             </flux:tooltip>
                         </div>

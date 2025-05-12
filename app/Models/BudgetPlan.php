@@ -23,4 +23,9 @@ class BudgetPlan extends Model
         return $this->belongsTo(FundingSource::class);
     }
 
+    public function budgetRealization()
+    {
+        return $this->hasOne(BudgetRealization::class);
+    }
+
 }

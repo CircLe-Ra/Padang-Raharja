@@ -43,13 +43,13 @@ Route::middleware(['auth'])->group(function () {
     Volt::route('master-data/users', 'master-data.user')->name('master-data.users');
 
     Volt::route('activity', 'activity')->name('activity');
-    Volt::route('fiscal-years', 'budget.fiscal-year')->name('budget.fiscal-years');
-    Volt::route('budget-plan/{fiscalYearId}', 'budget.budget-plan')->name('budget.budget-plan');
+    Volt::route('fiscal-years', 'budget.fiscal-year')->name('budget.plan.fiscal-years');
+    Volt::route('budget-plan/{fiscalYearId}', 'budget.budget-plan')->name('budget.plan.budget-plan');
 //    Volt::route('budget/plan/fiscal-years', 'budget.fiscal-year')->name('budget.plan.fiscal-years');
 //    Volt::route('budget/plan/{fiscalYearId}', 'budget.budget-plan-file')->name('budget.plan.budget-plan');
 
     Volt::route('budget/realization/fiscal-years', 'budget.fiscal-year-realiztion')->name('budget.realization.fiscal-years');
-    Volt::route('budget/realization/data/{fiscalYearId}', 'budget.budget-realization-file')->name('budget.realization.data');
+    Volt::route('budget/realization/data/{fiscalYearId}', 'budget.budget-realization')->name('budget.realization.data');
 
     Volt::route('settings/profile', 'settings.profile')->name('settings.profile');
     Volt::route('settings/password', 'settings.password')->name('settings.password');

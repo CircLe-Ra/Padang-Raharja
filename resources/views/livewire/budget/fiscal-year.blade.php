@@ -99,7 +99,7 @@ class extends Component {
 }; ?>
 
 <div>
-    <x-activity.breadcrumb active="Penyusunan / Tahun Anggaran" />
+    <x-budget.breadcrumb  active="Penyusunan" />
     <div class="grid grid-cols-1 gap-2 lg:grid-cols-3">
         <div class="lg:col-span-1">
             <div class="space-y-6 p-6 border border-zinc-200 dark:border-zinc-700 mt-2 rounded-lg bg-zinc-50 dark:bg-zinc-900">
@@ -157,7 +157,7 @@ class extends Component {
                                 <div class="flex items-center gap-2">
                                     <flux:tooltip position="left" content="Unggah Data Anggaran">
                                         <flux:button
-                                            href="{{ route('budget.budget-plan', $fy->id) }}"
+                                            href="{{ route('budget.plan.budget-plan', $fy->id) }}"
                                             variant="primary"
                                             size="xs"
                                             icon="pencil"

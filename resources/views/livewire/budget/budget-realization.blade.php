@@ -10,7 +10,6 @@ use Livewire\Volt\Component;
 use Livewire\WithPagination;
 
 new
-#[\Livewire\Attributes\Layout('components.layouts.public')]
 #[\Livewire\Attributes\Title('Realisasi Anggaran')]
 class extends Component {
     use WithPagination;
@@ -21,17 +20,19 @@ class extends Component {
     public string $search = '';
 
     #[\Livewire\Attributes\Locked]
+    public ?int $fiscalYearId;
+    public string $year = '';
     public ?int $id = null;
     public $budget_plan_id = null;
     public string $budget = '';
     public string $more_or_less = '';
 
-    public bool $commentModal = false;
+    public bool $budgetRealizationModal = false;
 
-    public function mount(): void
+    public function mount($fiscalYearId): void
     {
-        $ficalYear = FiscalYear::where('status', 1)->first()->id ?? 0;
-        $this->fiscalYearId = $ficalYear;
+        $this->fiscalYearId = $fiscalYearId;
+        $this->year = FiscalYear::find($fiscalYearId)->year;
     }
 
     #[\Livewire\Attributes\Computed]
@@ -50,7 +51,7 @@ class extends Component {
                     ->orWhere('unit', 'like', '%' . $this->search . '%')
                     ->orWhere('budget', 'like', '%' . $this->search . '%');
             })->where('fiscal_year_id', $this->fiscalYearId)
-            ->paginate($this->show, pageName: 'budget-realization-public-page');
+            ->paginate($this->show, pageName: 'budget-plan-page');
     }
 
 
@@ -65,10 +66,10 @@ class extends Component {
             BudgetRealization::updateOrCreate(['budget_plan_id' => $this->budget_plan_id], $validated);
             BudgetPlan::where('id', $this->budget_plan_id)->update(['realization' => 'already']);
             unset($this->budgetPlans);
-            $this->commentModal = false;
+           $this->budgetRealizationModal = false;
             $this->dispatch('toast', message: 'Data berhasil disimpan');
         } catch (Exception $e) {
-            $this->commentModal = false;
+           $this->budgetRealizationModal = false;
             $this->dispatch('toast', type: 'error', message: 'Data gagal disimpan ' . $e->getMessage());
         }
     }
@@ -79,22 +80,23 @@ class extends Component {
         $budgetPlan = BudgetPlan::find($id);
         $this->budget = $budgetPlan->budgetRealization->budget ?? '';
         $this->more_or_less = $budgetPlan->budgetRealization->more_or_less ?? '';
-        $this->commentModal = true;
+        $this->budgetRealizationModal = true;
     }
 
 
 }; ?>
 
 <div>
+    <x-budget.breadcrumb :back="route('budget.realization.fiscal-years')" active="Realisasi / Anggaran Tahun {{ $this->year }}"/>
     <x-table
         thead="#, Kode Rekening, Volume, Satuan, Permintaan Anggaran, Jumlah Realisasi(Rp), Lebih/Kurang(Rp), Sumber Dana"
         searchable
-        label="Realisasi Anggaran" sub-label="Anggaran dana yang telah direalisasikan">
+        label="Penyusunan Anggaran" sub-label="Daftar penyusunan anggaran">
         <x-slot name="filter">
             <x-filter wire:model.live="show"/>
             <div class="flex gap-8">
                 <div class="flex relative">
-                    <span class="absolute border border-zinc-500 top-1.5 -left-4 flex h-3 w-3 shrink-0 overflow-hidden rounded-sm bg-orange-200 dark:bg-orange-950"></span>
+                <span class="absolute border border-zinc-500 top-1.5 -left-4 flex h-3 w-3 shrink-0 overflow-hidden rounded-sm bg-orange-200 dark:bg-orange-950"></span>
                     <p>Perencanaan Kampung</p>
                 </div>
                 <div class="flex relative">
@@ -144,13 +146,13 @@ class extends Component {
             @endforeach
         @else
             <tr>
-                <td colspan="9" class="px-6 py-4 text-center">
+                <td colspan="7" class="px-6 py-4 text-center">
                     Data tidak ditemukan
                 </td>
             </tr>
         @endif
     </x-table>
-    <flux:modal wire:model.self="commentModal" class="md:w-96">
+    <flux:modal wire:model.self="budgetRealizationModal" class="md:w-96">
         <div class="space-y-6">
             <div>
                 <flux:heading size="lg">Realisasi Anggaran</flux:heading>
