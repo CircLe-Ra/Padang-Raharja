@@ -284,5 +284,8 @@ return [
         'contact'                  => 'Kontak',
         'location'                 => 'Lokasi',
         'account_code_id'          => 'Kode Rekening',
+        'account_code'             => 'Kode Rekening',
+        'aboriginal'               => 'Status Penduduk',
+        'comment'                  => 'Komentar',
     ],
 ];

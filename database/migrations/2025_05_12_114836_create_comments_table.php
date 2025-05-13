@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('budget_plan_id')->constrained('budget_plans')->cascadeOnDelete();
             $table->enum('aboriginal', ['yes', 'no']);
+            $table->string('name', 50);
             $table->text('comment');
             $table->timestamps();
         });

@@ -306,7 +306,7 @@ class extends Component {
                     <td class="px-6 py-4">
                         {{ $plan->unit ?? '-' }}
                     </td>
-                    <td class="px-6 py-4">
+                    <td class="px-6 py-4 text-nowrap">
                         {{ $plan->budget ? 'Rp ' . number_format($plan->budget, 2, ',', '.') : '-' }}
                     </td>
                     <td class="px-6 py-4">

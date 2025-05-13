@@ -22,7 +22,7 @@ Volt::route('portal/activity-read/{id}', 'public.activity-read')->name('activity
 Volt::route('portal/activity', 'public.activity')->name('portal.activity');
 Volt::route('portal/budget', 'public.budget')->name('portal.budget');
 Volt::route('portal/realization', 'public.realization')->name('portal.realization');
-Volt::route('portal/aspiration', 'public.aspiration')->name('portal.aspiration');
+//Volt::route('portal/aspiration', 'public.aspiration')->name('portal.aspiration');
 
 Route::view('dashboard', 'dashboard')
     ->middleware(['auth', 'verified'])

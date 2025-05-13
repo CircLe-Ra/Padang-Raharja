@@ -28,4 +28,5 @@ class BudgetPlan extends Model
         return $this->hasOne(BudgetRealization::class);
     }
 
+
 }

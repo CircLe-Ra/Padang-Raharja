@@ -106,7 +106,7 @@
     </flux:navlist>
 </flux:sidebar>
 
-<div class="px-8 py-2 mx-auto max-w-screen-xl">
+<div class="px-8 py-2 mx-auto {{ request()->routeIs('portal.realization') ? '' : 'max-w-screen-xl' }}">
     {{ $slot }}
 </div>
 
