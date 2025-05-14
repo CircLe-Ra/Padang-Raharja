@@ -101,7 +101,7 @@ new #[Layout('components.layouts.auth')] class extends Component {
                 autocomplete="current-password"
                 :placeholder="__('Password')"
             />
-            
+
         </div>
 
         <!-- Remember Me -->

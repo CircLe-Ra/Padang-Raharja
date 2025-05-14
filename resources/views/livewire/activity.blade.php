@@ -182,7 +182,7 @@ class extends Component {
             @endforeach
         @else
             <tr>
-                <td colspan="5" class="px-6 py-4 text-center">
+                <td colspan="7" class="px-6 py-4 text-center">
                     Data tidak ditemukan
                 </td>
             </tr>
