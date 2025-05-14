@@ -21,9 +21,7 @@
             <flux:spacer />
 
             <flux:navbar class="me-1.5 space-x-0.5 rtl:space-x-reverse py-0!">
-                <flux:tooltip :content="__('Search')" position="bottom">
                     <livewire:notif />
-                </flux:tooltip>
             </flux:navbar>
 
             <!-- Desktop User Menu -->
