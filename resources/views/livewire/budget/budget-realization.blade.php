@@ -91,7 +91,7 @@ class extends Component {
     <x-table
         thead="#, Kode Rekening, Volume, Satuan, Permintaan Anggaran, Jumlah Realisasi(Rp), Lebih/Kurang(Rp), Sumber Dana"
         searchable
-        label="Penyusunan Anggaran" sub-label="Daftar penyusunan anggaran">
+        label="Realisasi Anggaran" sub-label="Daftar anggaran yang belum dan sudah direalisasi">
         <x-slot name="filter">
             <x-filter wire:model.live="show"/>
             <div class="flex gap-8">
@@ -112,10 +112,9 @@ class extends Component {
                     <td class="px-6 py-4">
                         {{ $loop->iteration }}
                     </td>
-                    <td class="px-6 py-4 text-nowrap">
+                    <td class="px-6 py-4">
                         {{ $plan->accountCode->code }} - {{ $plan->accountCode->name }}
                     </td>
-
                     <td class="px-6 py-4">
                         {{ $plan->volume ?? '-' }}
                     </td>
