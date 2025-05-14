@@ -68,8 +68,7 @@ class extends Component {
                         ->orWhere('code', 'like', '%' . $this->search . '%');
                 });
             })
-            ->orderByRaw("CASE WHEN code LIKE '4%' THEN 0 ELSE 1 END")
-            ->orderBy('code') 
+            ->orderBy('id')
             ->paginate($this->show, pageName: 'budget-realization-public-page');
     }
 
