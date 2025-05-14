@@ -47,6 +47,7 @@ class extends Component {
     {
         $ficalYear = FiscalYear::where('status', 1)->first();
         $this->fiscalYearId = $ficalYear->id ?? 0;
+
         return AccountCode::with(['budgetPlans' => function ($query) {
             $query->where('fiscal_year_id', $this->fiscalYearId)
                 ->with(['fundingSource', 'budgetRealization'])
@@ -67,7 +68,8 @@ class extends Component {
                         ->orWhere('code', 'like', '%' . $this->search . '%');
                 });
             })
-            ->orderBy('code')
+            ->orderByRaw("CASE WHEN code LIKE '4%' THEN 0 ELSE 1 END")
+            ->orderBy('code') 
             ->paginate($this->show, pageName: 'budget-realization-public-page');
     }
 
