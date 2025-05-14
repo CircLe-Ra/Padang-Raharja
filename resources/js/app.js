@@ -1,3 +1,5 @@
+import './echo.js';
+
 import { animate, inView } from "motion";
 import * as FilePond from 'filepond';
 import FilePondPluginFileValidateType from 'filepond-plugin-file-validate-type';
@@ -40,4 +42,5 @@ window.addEventListener('livewire:navigated', () => {
         })
     })
 }, { once: true });
+
 

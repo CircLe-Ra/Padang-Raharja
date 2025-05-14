@@ -49,8 +49,6 @@
 
     }"
     x-on:toast.window="addToast($event)"
-    x-on:action-toast.window="addToastAction($event)"
-    x-on:action-toast-closed.window="removeActionToast"
     class="fixed z-[9999]! bottom-10 left-1/2 transform -translate-x-1/2 space-y-3 w-full max-w-md pointer-events-none"
     style="isolation: isolate;"
     role="alert" aria-live="assertive"

@@ -59,6 +59,8 @@ Route::middleware(['auth'])->group(function () {
     Volt::route('personal-dashboard', 'personal-dashboard')->name('personal-dashboard');
     Volt::route('personal-data', 'personal-data')->name('personal-data');
     Volt::route('personal-aspiration', 'personal-aspiration')->name('personal-aspiration');
+
+    Volt::route('/suggestion-box', 'suggestion-box')->name('suggestion-box');
 });
 
 

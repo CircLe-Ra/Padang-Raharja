@@ -14,7 +14,7 @@
     <flux:navbar.item icon="handshake" :href="route('budget.realization.fiscal-years')" :current="request()->routeIs('budget.realization*')" wire:navigate>
         Realisasi
     </flux:navbar.item>
-    <flux:navbar.item icon="square-library" :href="route('dashboard')" :current="request()->routeIs('dashboard')" wire:navigate>
-        Laporan
+    <flux:navbar.item icon="square-library" :href="route('suggestion-box')" :current="request()->routeIs('suggestion-box')" wire:navigate>
+        Kotak Saran
     </flux:navbar.item>
 </flux:navbar>

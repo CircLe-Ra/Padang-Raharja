@@ -9,7 +9,7 @@ window.Echo = new Echo({
     broadcaster: 'pusher',
     key: import.meta.env.VITE_PUSHER_APP_KEY,
     cluster: import.meta.env.VITE_PUSHER_APP_CLUSTER,
-    forceTLS: true
+    forceTLS: true,
 });
 
 const playNotificationSound = () => {
@@ -26,7 +26,7 @@ const notify = (e) => {
         title: 'Notifikasi Baru',
         text:`<div style="margin-left: 12px; font-size: 0.875rem; font-weight: normal;">
                         <div style="font-size: 0.875rem; font-weight: 600; color: #111827;">${e.sender_name}</div>
-                        <div style="font-size: 0.875rem; font-weight: normal;">${e.sender_status} | ${e.message}</div>
+                        <div style="font-size: 0.875rem; font-weight: normal;">${e.sender_status}</div>
                         <span style="font-size: 0.75rem; font-weight: 500; color: #2563eb;">Beberapa detik yang lalu.</span>
                     </div>`,
         effect: 'fade',
@@ -46,9 +46,11 @@ const notify = (e) => {
 if(document.querySelector('meta[name="user-id"]')){
     window.Echo.private(`App.Models.User.${document.querySelector('meta[name="user-id"]').content}`)
         .notification((notification) => {
+            console.log(notification);
             playNotificationSound();
             notify(notification);
         });
 }
+
 window.notify = notify;
 window.playNotificationSound = playNotificationSound;

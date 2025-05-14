@@ -4,6 +4,7 @@ namespace App\Notifications;
 
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Notifications\Messages\BroadcastMessage;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
@@ -44,12 +45,12 @@ class NewCommentNotification extends Notification implements ShouldQueue
         ];
     }
 
-    public function toBroadcast($notifiable): array
+    public function toBroadcast(object $notifiable): BroadcastMessage
     {
-        return [
+        return new BroadcastMessage([
             'sender_name' => $this->senderName,
             'sender_status' => $this->senderStatus,
             'message' => $this->message
-        ];
+        ]);
     }
 }

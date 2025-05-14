@@ -6,8 +6,9 @@ use App\Models\BudgetRealization;
 use App\Models\Comment;
 use App\Models\FiscalYear;
 use App\Models\FundingSource;
+use App\Models\User;
+use App\Notifications\NewCommentNotification;
 use Illuminate\Support\Facades\Notification;
-use JetBrains\PhpStorm\NoReturn;
 use Livewire\Volt\Component;
 use Livewire\WithPagination;
 
@@ -78,20 +79,20 @@ class extends Component {
             'comment' => ['required'],
         ]);
         try {
-            $users = \App\Models\User::whereHas('roles', function ($query) {
+            $users = User::whereHas('roles', function ($query) {
                 $query->where('name', 'staff');
             })->get();
-            dd($users);
             $validated['budget_plan_id'] = $this->budget_plan_id;
             Comment::create($validated);
+            Notification::sendNow($users, new NewCommentNotification($this->name, $this->aboriginal, $this->comment));
             unset($this->accountCodesWithBudgets);
             $this->reset(['budget_plan_id', 'name', 'aboriginal', 'comment', 'accountCodeComment']);
             $this->commentModal = false;
-
             $this->dispatch('toast', message: 'Komentar anda telah dikirimkan');
         } catch (Exception $e) {
             $this->commentModal = false;
             $this->dispatch('toast', type: 'error', message: 'Komentar gagal dikirimkan, terjadi kesalahan : ' . $e->getMessage());
+            dd($e->getMessage());
         }
     }
 

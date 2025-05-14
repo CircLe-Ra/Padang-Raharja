@@ -3,6 +3,7 @@
 @import '../../node_modules/filepond/dist/filepond.min.css';
 @import  '../../node_modules/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css';
 @import '../../public/font/GTWalsheimPro.css';
+@import '../../node_modules/simple-notify/dist/simple-notify.css';
 
 @source '../views';
 @source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';

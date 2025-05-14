@@ -28,5 +28,8 @@ class BudgetPlan extends Model
         return $this->hasOne(BudgetRealization::class);
     }
 
-
+    public function comments()
+    {
+        return $this->hasMany(Comment::class);
+    }
 }
