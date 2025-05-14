@@ -24,14 +24,14 @@ Volt::route('portal/budget', 'public.budget')->name('portal.budget');
 Volt::route('portal/realization', 'public.realization')->name('portal.realization');
 //Volt::route('portal/aspiration', 'public.aspiration')->name('portal.aspiration');
 
-Route::view('dashboard', 'dashboard')
-    ->middleware(['auth', 'verified'])
-    ->name('dashboard');
 
 Volt::route('aspiration-detail/ticket/{ticket}', 'personal-aspiration-detail')->name('portal.aspiration-detail');
 
 Route::middleware(['auth'])->group(function () {
+    Volt::route('dashboard', 'dashboard')->name('dashboard');
     Route::redirect('settings', 'settings/profile');
+
+    Volt::route('notification', 'notification')->name('notification');
 
     Volt::route('master-data/account-code', 'master-data.account-code')->name('master-data.account-code');
     Volt::route('master-data/funding-source', 'master-data.funding-source')->name('master-data.funding-source');

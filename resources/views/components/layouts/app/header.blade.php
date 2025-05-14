@@ -22,7 +22,7 @@
 
             <flux:navbar class="me-1.5 space-x-0.5 rtl:space-x-reverse py-0!">
                 <flux:tooltip :content="__('Search')" position="bottom">
-                    <flux:navbar.item class="!h-10 [&>div>svg]:size-5" icon="magnifying-glass" href="#" :label="__('Search')" />
+                    <livewire:notif />
                 </flux:tooltip>
             </flux:navbar>
 
@@ -62,7 +62,15 @@
                     <flux:menu.radio.group>
                         <flux:menu.item :href="route('home')" icon="home" wire:navigate>Beranda</flux:menu.item>
                     </flux:menu.radio.group>
+
                     <flux:menu.separator />
+
+                    <flux:menu.radio.group>
+                        <flux:menu.item :href="route('notification')" icon="bell" wire:navigate>Notifkasi</flux:menu.item>
+                    </flux:menu.radio.group>
+
+                    <flux:menu.separator />
+
                     <flux:menu.radio.group>
                         <flux:menu.item :href="route('settings.profile')" icon="cog" wire:navigate>{{ __('Settings') }}</flux:menu.item>
                     </flux:menu.radio.group>

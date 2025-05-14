@@ -66,7 +66,7 @@ class extends Component {
                     <td class="px-6 py-4">
                         {{ $loop->iteration }}
                     </td>
-                    <td class="px-6 py-4 text-nowrap">
+                    <td class="px-6 py-4">
                         {{ $comment->budgetPlan->accountCode->code }} - {{ $comment->budgetPlan->accountCode->name }}
                     </td>
                     <td class="px-6 py-4">
