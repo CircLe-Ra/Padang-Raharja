@@ -74,7 +74,7 @@ new #[Layout('components.layouts.auth')] class extends Component {
 }; ?>
 
 <div class="flex flex-col gap-6 ">
-    <x-auth-header :title="__('Log in to your account')" :description="__('Enter your email and password below to log in')" />
+    <x-auth-header :title="__('Masuk ke akunmu')" :description="__('Masukan email dan password untuk masuk ke aplikasi')" />
 
     <!-- Session Status -->
     <x-auth-session-status class="text-center" :status="session('status')" />
@@ -101,12 +101,7 @@ new #[Layout('components.layouts.auth')] class extends Component {
                 autocomplete="current-password"
                 :placeholder="__('Password')"
             />
-
-            @if (Route::has('password.request'))
-                <flux:link class="absolute end-0 top-0 text-sm" :href="route('password.request')" wire:navigate>
-                    {{ __('Forgot your password?') }}
-                </flux:link>
-            @endif
+            
         </div>
 
         <!-- Remember Me -->
