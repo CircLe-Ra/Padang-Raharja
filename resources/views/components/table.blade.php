@@ -2,12 +2,12 @@
 @php
     $thead = \Str::of($thead)->explode(',');
 @endphp
-<div class="p-6 border border-zinc-200 dark:border-zinc-700 mt-2 rounded-lg bg-zinc-50 dark:bg-zinc-900 {{ $mainClass }}">
+<div class="p-6 border border-zinc-200 print:border-none dark:border-zinc-700 mt-2 rounded-lg bg-zinc-50 dark:bg-zinc-900 {{ $mainClass }}">
     @isset($label)
-        <flux:heading size="xl" level="1">{{ $label }}</flux:heading>
+        <flux:heading size="xl" level="1" class="print:text-center">{{ $label }}</flux:heading>
     @endisset
     @isset($subLabel)
-        <flux:subheading class="mb-2">{{ $subLabel }}</flux:subheading>
+        <flux:subheading class="mb-2" class="print:text-center">{{ $subLabel }}</flux:subheading>
     @endisset
     <div class="flex items-center justify-between py-2">
         @if ($filter)

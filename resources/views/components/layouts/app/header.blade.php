@@ -10,10 +10,11 @@
             <a href="{{ route('dashboard') }}" class="ms-2 me-5 flex items-center space-x-2 rtl:space-x-reverse lg:ms-0" wire:navigate>
                 <x-app-logo />
             </a>
-
+            <flux:spacer />
             @role('staff')
                 <x-menu-staff />
             @endrole
+
 
             @role('masyarakat')
                 <x-menu />
@@ -58,7 +59,7 @@
                     </flux:radio.group>
                     <flux:menu.separator />
                     <flux:menu.radio.group>
-                        <flux:menu.item :href="route('home')" icon="home" wire:navigate>Beranda</flux:menu.item>
+                        <flux:menu.item :href="route('home')" icon="home" icon:variant="outline" wire:navigate>Beranda</flux:menu.item>
                     </flux:menu.radio.group>
 
                     <flux:menu.separator />
