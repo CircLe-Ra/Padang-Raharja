@@ -18,7 +18,7 @@ new class extends Component {
         $this->totalUser = User::count() ?? 0;
         $this->totalComment = Comment::count() ?? 0;
         $fiscalYear = \App\Models\FiscalYear::where('status', true)->first();
-        $this->totalRealization = \App\Models\BudgetPlan::where('fiscal_year_id', $fiscalYear->id)->where('realization', 'already')->count() ?? 0;
+        $this->totalRealization = \App\Models\BudgetPlan::where('fiscal_year_id', $fiscalYear->id ?? 0)->where('realization', 'already')->count() ?? 0;
     }
 }; ?>
 

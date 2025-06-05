@@ -2,5 +2,5 @@
     <x-app-logo-icon class="size-5 fill-current" />
 </div>
 <div class="ms-1 grid flex-1 text-start text-lg">
-    <span class="mb-0.5 truncate leading-none font-semibold ml-1">Padang Raharja</span>
+    <span class="mb-0.5 truncate leading-none font-semibold ml-1 text-white">Padang Raharja</span>
 </div>

@@ -3,8 +3,8 @@
     <head>
         @include('partials.head')
     </head>
-    <body class="min-h-screen bg-white dark:bg-zinc-800">
-        <flux:header container class="border-b border-zinc-200 bg-zinc-50 dark:border-zinc-700 dark:bg-zinc-900">
+    <body class="min-h-screen bg-neutral-200 dark:bg-zinc-800">
+        <flux:header container class="border-b border-zinc-200 bg-orange-500 dark:border-zinc-700 dark:bg-zinc-900">
             <flux:sidebar.toggle class="lg:hidden" icon="bars-2" inset="left" />
 
             <a href="{{ route('dashboard') }}" class="ms-2 me-5 flex items-center space-x-2 rtl:space-x-reverse lg:ms-0" wire:navigate>
@@ -20,6 +20,8 @@
             @endrole
             <flux:spacer />
 
+            <flux:button x-data x-on:click="$flux.dark = ! $flux.dark" icon="moon" class="!text-white " variant="subtle" aria-label="Toggle dark mode" />
+
             <flux:navbar class="me-1.5 space-x-0.5 rtl:space-x-reverse py-0!">
                     <livewire:notif />
             </flux:navbar>
@@ -27,8 +29,9 @@
             <!-- Desktop User Menu -->
             <flux:dropdown position="top" align="end">
                 <flux:profile
-                    class="cursor-pointer"
+                    class="cursor-pointer "
                     :initials="auth()->user()->initials()"
+                    icon:trailing="chevron-down"
                 />
 
                 <flux:menu>
@@ -50,12 +53,6 @@
                             </div>
                         </div>
                     </flux:menu.radio.group>
-                    <flux:menu.separator />
-                    <flux:radio.group x-data variant="segmented" x-model="$flux.appearance">
-                        <flux:radio value="light"  icon="sun"></flux:radio>
-                        <flux:radio value="dark" icon="moon"></flux:radio>
-                        <flux:radio value="system" icon="computer-desktop"></flux:radio>
-                    </flux:radio.group>
                     <flux:menu.separator />
                     <flux:menu.radio.group>
                         <flux:menu.item :href="route('home')" icon="home" wire:navigate>Beranda</flux:menu.item>
