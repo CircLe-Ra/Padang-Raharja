@@ -17,4 +17,7 @@
     <flux:navbar.item icon="square-library" :href="route('suggestion-box')" :current="request()->routeIs('suggestion-box')" wire:navigate>
         Kotak Saran
     </flux:navbar.item>
+    <flux:navbar.item icon="file-text" :href="route('report.realization')" :current="request()->routeIs('report.realization')" wire:navigate>
+        Laporan
+    </flux:navbar.item>
 </flux:navbar>
